@@ -20,11 +20,13 @@ services:
 install:
 build_script:
 - ps: |
+    $env:path -split ';'
     $pyHome = $env:PYTHONHOME
     $msysHome = 'C:\msys64\usr\bin'
-    $env:Path = "$pyHome;$pyHome\Scripts;$msysHome;$($env:Path)"
+    $env:Path = "$pyHome;$pyHome\Scripts;$pyHome\\Library\\bin;$msysHome;$($env:Path)"
+    $env:path -split ';'
     & python.exe -V
-    & python.exe -c "import sys; print(sys.version)"
+    & python.exe -c "import sys; print(sys.version); print(sys.executable); print(sys.path)"
     & python.exe -c "import sqlite3; print(sqlite3.version)"
 test_script:
 artifacts:
