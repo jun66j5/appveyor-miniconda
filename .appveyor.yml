@@ -1,0 +1,27 @@
+version: '{branch}.{build}'
+clone_depth: 20
+init:
+image:
+- Visual Studio 2019
+- Visual Studio 2017
+- Visual Studio 2015
+- Visual Studio 2013
+- Previous Visual Studio 2019
+- Previous Visual Studio 2017
+- Previous Visual Studio 2015
+- Previous Visual Studio 2013
+environment:
+  matrix:
+  - PYTHONHOME: C:\Miniconda-x64
+services:
+install:
+build_script:
+- ps: |
+    $pyHome = $env:PYTHONHOME
+    $msysHome = 'C:\msys64\usr\bin'
+    $env:Path = "$pyHome;$pyHome\Scripts;$msysHome;$($env:Path)"
+    & python.exe -V
+    & python.exe -c "import sys; print(sys.version)"
+    & python.exe -c "import sqlite3; print(sqlite3.version)"
+test_script:
+artifacts:
